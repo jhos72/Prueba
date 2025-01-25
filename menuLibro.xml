@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+    <item id="inicio">
+        <es>Inicio</es>
+        <en>Home</en>
+        <link>index.html</link>
+    </item>
+    <item id="registrar">
+        <es>Registrar libro</es>
+        <en>Register book</en>
+        <link>registrar.html</link>
+    </item>
+    <item id="explorar">
+        <es>Explorar libros</es>
+        <en>Explore books</en>
+        <link>explorar.html</link>
+    </item>
+    <item id="estadisticas">
+        <es>Estadisticas</es>
+        <en>Statistics</en>
+        <link>estadisticas.html</link>
+    </item>
+    <item id="recomendaciones">
+        <es>Recomendaciones</es>
+        <en>Recommendations</en>
+        <link>recomendaciones.html</link>
+    </item>
+    <item id="recursos">
+        <es>Recursos</es>
+        <en>Resources</en>
+        <link>recursos.html</link>
+    </item>
+    <item id="faq">
+        <es>FAQ</es>
+        <en>FAQ</en>
+        <link>faq.html</link>
+    </item>
+    <item id="contacto">
+        <es>Contacto</es>
+        <en>Contact</en>
+        <link>contacto.html</link>
+    </item>
+</menu>

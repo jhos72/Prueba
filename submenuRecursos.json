@@ -1,0 +1,15 @@
+[
+    {
+        "nombre": "Blogs literarios",
+        "link": "recursos.html"
+    },{
+        "nombre":"Plataformas de lectura",
+        "link":"plataformas.html"
+    },{
+        "nombre":"Foros de discusion",
+        "link":"foros.html"
+    },{
+        "nombre":"Eventos literarios",
+        "link":"eventos.html"
+    }
+]

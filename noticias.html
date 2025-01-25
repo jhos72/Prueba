@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mybook</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">   
+<body style="background-image: url(fondo5.png);">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <div class="container" >
+        <nav class="navbar navbar-expand-lg  fixed-top " style="background-image: url(p1.png);" >
+            <div class="container-fluid " >
+                <!--Menu principal-->
+                <button class="btn " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSubmenu" aria-controls="offcanvasSubmenu" >
+                    <span >
+                        <svg class="link-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bookmark-fill" viewBox="0 0 16 16">
+                            <path d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"/>
+                        </svg>
+                    </span>
+                </button>
+                <select class=" ml-5 btn link-light" id="idioma">
+                    <option value="es">Español</option>
+                    <option value="en">English</option>
+                </select>
+                <a class="navbar-brand link-light mx-4" href="index.php"><h3>MyBook</h3></a>
+                    
+                <button class="navbar-toggler btn btn-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon "></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+                    <div class="navbar-nav text-white" id="menu">
+                        <!--Aqui mi JSON-->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    
+<script>               
+    let xmlDoc = null;
+    // Función para cargar el archivo XML
+    function cargaXML(callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "menuLibro.xml", true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const parser = new DOMParser();
+                xmlDoc = parser.parseFromString(xhr.responseText, "application/xml");
+                callback();
+            } else {
+                console.error("No se pudo cargar el archivo XML.");
+            }
+        };
+        xhr.send();
+    }
+
+    // Función para cambiar el idioma del menú
+    function cambioLenguaje(lenguaje) {
+        if (!xmlDoc) return;
+
+        const menu = document.getElementById("menu");
+        const items = xmlDoc.getElementsByTagName("item");
+        menu.innerHTML = "";
+
+        Array.from(items).forEach(item => {
+            const translationElement = item.getElementsByTagName(lenguaje)[0];
+            const linkElement = item.getElementsByTagName("link")[0];
+
+            if (translationElement && linkElement) {
+                const translation = translationElement.textContent;
+                const link = linkElement.textContent;
+
+                // Crear elemento <li> y su <a>
+                const li = document.createElement("li");
+                li.classList.add("nav-item", "m-2"); 
+
+                const a = document.createElement("a");
+                a.classList.add("nav-link", "active", "link-light"); 
+                a.textContent = translation;
+                a.href = link;
+
+                li.appendChild(a);
+                menu.appendChild(li);
+            } else {
+                console.warn(`Falta información para el elemento con id "${item.getAttribute('id')}".`);
+            }
+        });
+    }
+
+    // Evento para cambiar el idioma dinámicamente
+    document.getElementById("idioma").addEventListener("change", (event) => {
+    cambioLenguaje(event.target.value);
+    });
+
+    // Cargar el XML y establecer el idioma inicial
+    cargaXML(() => {
+    cambioLenguaje("es"); // Idioma predeterminado: Español
+    });
+</script>
+<div class="offcanvas offcanvas-start container-fluid" tabindex="-1" id="offcanvasSubmenu" aria-labelledby="offcanvasSubmenuLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasSubmenuLabel">Submenu</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="submenu">
+        <ul class="nav flex-column " >
+        
+        </ul>
+    </div>
+</div>
+        <script>
+            const xhrs=new XMLHttpRequest();
+			xhrs.open("GET", "submenuInicio.json", true);
+			xhrs.onload = function() {
+                if (xhrs.status === 200) {
+                    const menuitems = JSON.parse(xhrs.responseText);
+                    let menuHTML="";
+                    menuitems.forEach(item => {
+                        menuHTML+=`
+                            <li class="nav-item nav-link p-2 m-2" >
+                            <a class="nav-link" aria-current="page" href="${item.link}">${item.nombre}</a>
+                            </li>
+                            `;
+                    }); 
+
+                    document.getElementById("submenu").innerHTML=menuHTML;
+                }
+                else {
+                    console.error("Error");
+                }
+            };
+            xhrs.send();
+        </script>
+
+
+<div class="row mt-5 p-5" id="carrusel">
+    <!--Carrusel-->
+    <div id="carousel" class="carousel slide  " >
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="c1.jpg" class="d-block w-100 img-fluid  position-relative " alt="baner numero 1">
+            </div>
+            <div class="carousel-item">
+                <img src="c2.jpg" class="d-block w-100 img-fluid" alt="baner numero 2">
+            </div>
+            <div class="carousel-item">
+                <img src="c3.jpg" class="d-block w-100 img-fluid" alt="baner numero 3">
+            </div>
+            <div class="carousel-item">
+                <img src="c4.jpg" class="d-block w-100 img-fluid" alt="baner numero 4">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>   
+<div id="contenido3" class="my-3 text-white text-center">
+    <h3 class="text-center p-2">Noticias literarias</h3>
+    <p class="text-center">En esta seccion podras encontrar las ultimas noticias literarias, 
+        lanzamientos de libros, eventos y recomendaciones de lectura</p>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <h3 class="text-center p-3">Premio Nobel de Literatura 2024</h3>
+                    <p>La escritora surcoreana Han Kang ha sido galardonada con el Premio Nobel de Literatura
+                    por su "intensa prosa poética" que confronta la fragilidad humana. 
+                    Es la primera autora de Corea del Sur en recibir este prestigioso reconocimiento.</p>
+                    <a href="https://cnnespanol.cnn.com/cultura/literatura?">Ver mas</a>
+                </div>
+                <div class="col-sm">
+                    <h3 class="text-center p-3">Adaptación de 'Cien años de soledad' en Netflix</h3>
+                    <p>La esperada adaptación de la emblemática novela de Gabriel García Márquez ha llegado a Netflix. 
+                        La serie, que consta de 16 episodios, ya tiene disponible su primera mitad en la plataforma, 
+                        generando gran expectación entre los seguidores de la obra del Nobel colombiano.</p>
+                        <a href="https://www.20minutos.es/minuteca/literatura/1/?">Ver mas</a>
+                </div>
+                <div class="col-sm">
+                    <h3 class="text-center p-3">Resurgimiento del Surrealismo y Movimiento #MeToo en la Cultura</h3>
+                    <p>El año 2024 ha sido testigo de un resurgimiento del surrealismo en la cultura, 
+                        con diversas exposiciones y eventos conmemorando el centenario de este movimiento 
+                        artístico. Paralelamente, el movimiento #MeToo ha cobrado fuerza en la industria cultural,
+                        con múltiples denuncias de abuso y acoso, impulsando debates sobre la igualdad y el 
+                        respeto en el ámbito artístico. </p>
+                        <a href="https://cadenaser.com/nacional/2024/12/29/2024-el-ano-del-surrealismo-y-del-metoo-en-la-cultura-cadena-ser/?">Ver mas</a>
+                </div>
+            </div>
+        </div>    
+</div>
+
+</body>
+<footer class="bg-dark text-white text-center py-3">
+        <div class="container">
+            <p>&copy; 2025 Registro de Libros Favoritos. Todos los derechos reservados.</p>
+            <p>
+                <a href="#" class="text-white text-decoration-none me-3">Política de Privacidad</a>
+                <a href="#" class="text-white text-decoration-none">Términos de Uso</a>
+            </p> 
+        </div>
+    </footer>
+</html>

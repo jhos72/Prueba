@@ -1,0 +1,16 @@
+[
+    {
+        "nombre":"Libros similares",
+        "link": "recomendaciones.html"
+    },
+    {
+        "nombre": "Listas de lectura personalizadas",
+        "link": "lista.html"
+    },{
+        "nombre": "Novedades editoriales",
+        "link": "novedades.html"
+    },{
+        "nombre": "Clubes de lectura recomendados",
+        "link": "clubes.html"
+    }
+]

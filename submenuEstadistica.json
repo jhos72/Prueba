@@ -1,0 +1,19 @@
+[
+    {
+        "nombre": "Libros mas registrados",
+        "link": "estadisticas.html"
+    },
+    {
+        "nombre": "Generos populares",
+        "link": "generosP.html"
+    },
+    {
+        "nombre": "Comparacion por usuarios",
+        "link": "comparacion.html"
+    },
+    {
+        "nombre": "Tendencias literarias",
+        "link": "tendencias.html"
+    }
+]
+
